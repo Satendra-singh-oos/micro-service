@@ -1,6 +1,6 @@
-# Microservice Architecture Demo
+# Micro-Service Architecture Demo
 
-This project is a learning setup for understanding and implementing microservices architecture using Node.js, TypeScript, and PostgreSQL.
+This project is a learning setup for understanding and implementing micro-services architecture using Node.js, TypeScript, and PostgreSQL.
 
 ## 📁 Project Structure
 
