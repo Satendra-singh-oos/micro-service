@@ -2,13 +2,12 @@
   "name": "user-service",
   "version": "1.0.0",
   "main": "dist/index.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf dist node_modules",
     "build": "rimraf dist && npx tsc",
     "dev": "cross-env NODE_ENV=development npm run build && concurrently \"npx tsc -w\" \"nodemon --exec ts-node src/index.ts\"",
-    "prod": "cross-env NODE_ENV=production npm run clean && npm run build && node ./dist/index.js",
+    "prod": "cross-env NODE_ENV=production npm run clean && npm install && npm run db:migrate && npm run build && node ./dist/index.js",
     "format": "prettier --write .",
     "lint": "prettier --check .",
     "db:migrate": "npx prisma migrate dev --schema=./src/config/prisma",
@@ -25,7 +24,13 @@
   "license": "ISC",
   "description": "User microservice handling user data and authentication logic in a TypeScript-based microservices architecture.",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/hpp": "^0.2.6",
     "@types/node": "^24.0.1",
+    "@types/request-ip": "^0.0.41",
+    "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
@@ -37,8 +42,17 @@
   },
   "dependencies": {
     "@prisma/client": "^6.9.0",
+    "compression": "^1.8.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "dotenv-expand": "^12.0.2",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
+    "hpp": "^0.2.3",
+    "morgan": "^1.10.0",
+    "request-ip": "^3.3.0",
     "zod": "^3.25.64"
   }
 }

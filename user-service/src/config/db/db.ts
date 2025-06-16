@@ -1,8 +1,16 @@
 import { PrismaClient } from "@prisma/client";
-import env from "../../utils/env.js";
+import env from "../../utils/env";
 
-const prisma = new PrismaClient({
+export const prisma = new PrismaClient({
   datasourceUrl: env.DATABASE_URL,
 });
 
-export default prisma;
+export const connectDb = async () => {
+  try {
+    await prisma.$connect();
+    console.log(`User Service Db Connected 👨‍💻`);
+  } catch (error) {
+    console.log("Unable to connect to Db", error);
+    process.exit(1);
+  }
+};
