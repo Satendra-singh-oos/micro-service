@@ -1,8 +1,12 @@
-import { UserRegistrationDTO } from "../../utils/types/user.type";
+import { UserLoginDTO, UserRegistrationDTO } from "../../utils/types/user.type";
 import * as userRepo from "../../repository/user/user.repository";
 import { ApiError } from "../../utils/AppError";
 import { HttpStatusCode } from "axios";
-import { generateHashPassword } from "../../utils/helper";
+import {
+  comparePassword,
+  generateAccessToken,
+  generateHashPassword,
+} from "../../utils/helper";
 
 export const userRegistrationService = async (
   data: UserRegistrationDTO
@@ -29,4 +33,28 @@ export const userRegistrationService = async (
   data.password = hashedPassword;
 
   return await userRepo.createUser(data);
+};
+
+export const userLoginService = async (data: UserLoginDTO): Promise<string> => {
+  const isUserExist = await userRepo.getUserByEmail(data.email);
+
+  if (!isUserExist) {
+    throw new ApiError(HttpStatusCode.BadRequest, "User Dose Not Exist");
+  }
+
+  const isPasswordCorrect = await comparePassword({
+    password: data.password,
+    hashedPassword: isUserExist.password,
+  });
+
+  if (!isPasswordCorrect) {
+    throw new ApiError(HttpStatusCode.BadRequest, "Password is incorrect");
+  }
+
+  return await generateAccessToken({
+    email: isUserExist.email,
+    role: isUserExist.role,
+    userId: isUserExist.id,
+    username: isUserExist.userName,
+  });
 };

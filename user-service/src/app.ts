@@ -6,6 +6,10 @@ import corsOptions from "./middlewares/global/cors";
 import helmetOptions from "./middlewares/global/helemt";
 import rateLimiter from "./middlewares/global/rateLimiter";
 import { V1 } from "./utils/constant";
+import {
+  errorHandler as globalErrorHandler,
+  notFoundHandler,
+} from "./middlewares/error.handler";
 
 const app: express.Application = express();
 
@@ -26,5 +30,11 @@ import userRouter from "./modules/user/user.route";
 
 app.use(`${V1}/health-check`, healthCheckRouter);
 app.use(`${V1}/user`, userRouter);
+
+// 404 handler for undefined routes
+app.use(notFoundHandler);
+
+// Global error handler
+app.use(globalErrorHandler);
 
 export { app };
