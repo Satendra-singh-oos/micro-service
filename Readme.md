@@ -1,24 +1,28 @@
-# Micro-Service Architecture Demo
+# Micro-Service Architecture 
 
 This project is a learning setup for understanding and implementing micro-services architecture using Node.js, TypeScript, and PostgreSQL.
 
-## 📁 Project Structure
+## Project Structure
 
 - `user-service/` – Handles user-related logic (authentication, profile, etc.)
 - `product-service/` – Manages product data
 - `order-service/` – Manages orders and transactions
-- `init/` – Contains database initialization SQL
-- `docker-compose.yml` – Runs PostgreSQL and Adminer via Docker
+- `docker-compose.yml` – Runs PostgreSQL, MongoDB, and Adminer via Docker
 
-## 🐘 How to Start the Database
+## 🐳 How to Start the Databases with Docker
 
-1. **Install Docker**  
-   Make sure Docker is installed on your machine.  
-   👉 [Download Docker](https://www.docker.com/)
+This project uses Docker to spin up isolated database containers for each micro-service.
 
-2. **Run the PostgreSQL Container**
+### 1. **Install Docker**
 
-   In the project root directory, run:
+Ensure Docker is installed on your system.  
+👉 [Download Docker](https://www.docker.com/)
 
-   ```bash
-   docker-compose up -d
+---
+
+### 2. **Run the Database Containers**
+
+In the root directory of the project, run:
+
+```bash
+docker-compose up -d
