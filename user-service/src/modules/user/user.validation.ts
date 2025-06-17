@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import { z } from "zod";
 
 export const registerUserSchema = z.object({
@@ -55,4 +56,22 @@ export const loginUserSchema = z.object({
       password: z.string().trim(),
     })
     .strict(),
+});
+
+export const getUserSchema = z.object({
+  params: z
+    .object({
+      id: z.string().uuid().trim(),
+    })
+    .strict(),
+});
+
+export const updateUserRoleSchema = z.object({
+  params: z
+    .object({
+      id: z.string().uuid().trim(),
+    })
+    .strict(),
+
+  body: z.object({ role: z.nativeEnum(Role) }).strict(),
 });

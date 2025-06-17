@@ -1,6 +1,10 @@
 import { User } from "@prisma/client";
 import { prisma } from "../../config/db/db";
-import { UserRegistrationDTO } from "../../utils/types/user.type";
+import {
+  GetUserDTO,
+  UpdateUserDTO,
+  UserRegistrationDTO,
+} from "../../utils/types/user.type";
 
 export async function getUserByEmail(email: string): Promise<User | null> {
   return await prisma.user.findUnique({
@@ -27,6 +31,41 @@ export async function createUser(
     data,
     select: {
       id: true,
+    },
+  });
+}
+
+export async function getUserById(id: string): Promise<GetUserDTO | null> {
+  return await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      userName: true,
+      firstName: true,
+      email: true,
+      role: true,
+    },
+  });
+}
+
+export async function updateUserDetails({
+  id,
+  data,
+}: {
+  id: string;
+  data: UpdateUserDTO;
+}): Promise<GetUserDTO | null> {
+  return await prisma.user.update({
+    where: {
+      id,
+    },
+    data,
+    select: {
+      userName: true,
+      firstName: true,
+      email: true,
+      role: true,
     },
   });
 }

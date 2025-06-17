@@ -1,4 +1,8 @@
-import { UserLoginDTO, UserRegistrationDTO } from "../../utils/types/user.type";
+import {
+  GetUserDTO,
+  UserLoginDTO,
+  UserRegistrationDTO,
+} from "../../utils/types/user.type";
 import * as userRepo from "../../repository/user/user.repository";
 import { ApiError } from "../../utils/AppError";
 import { HttpStatusCode } from "axios";
@@ -7,6 +11,7 @@ import {
   generateAccessToken,
   generateHashPassword,
 } from "../../utils/helper";
+import { Role } from "@prisma/client";
 
 export const userRegistrationService = async (
   data: UserRegistrationDTO
@@ -57,4 +62,31 @@ export const userLoginService = async (data: UserLoginDTO): Promise<string> => {
     userId: isUserExist.id,
     username: isUserExist.userName,
   });
+};
+
+export const getUserByIdService = async (
+  id: string
+): Promise<GetUserDTO | null> => {
+  const isUserExist = await userRepo.getUserById(id);
+
+  if (!isUserExist) {
+    throw new ApiError(HttpStatusCode.BadRequest, "User Dose Not Exist");
+  }
+  return isUserExist;
+};
+
+export const updatedUserRoleService = async ({
+  id,
+  role,
+}: {
+  id: string;
+  role: Role;
+}) => {
+  const isUserExist = await userRepo.getUserById(id);
+
+  if (!isUserExist) {
+    throw new ApiError(HttpStatusCode.BadRequest, "User Dose Not Exist");
+  }
+
+  return await userRepo.updateUserDetails({ id, data: { role } });
 };
