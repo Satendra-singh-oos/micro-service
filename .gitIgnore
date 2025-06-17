@@ -13,3 +13,4 @@ product-service/.env
 
 postgres-data
 data
+.DS_STORE
