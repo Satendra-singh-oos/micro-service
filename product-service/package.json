@@ -10,10 +10,8 @@
     "prod": "cross-env NODE_ENV=production npm run clean && npm install && npm run db:migrate && npm run build && node ./dist/index.js",
     "format": "prettier --write .",
     "lint": "prettier --check .",
-    "db:migrate": "npx prisma migrate dev --schema=./src/config/prisma",
-    "db:generate": "npx prisma generate --schema=./src/config/prisma",
-    "db:push": "prisma db push -schema=./src/config/prisma",
-    "db:pull": "prisma db pull -schema=./src/config/prisma",
+    "db:push": "npx prisma db push --schema=./src/config/prisma/schema.prisma",
+    "db:generate": "npx prisma generate --schema=./src/config/prisma/schema.prisma",
     "db:studio": "npx prisma studio --schema=./src/config/prisma"
   },
   "keywords": [
