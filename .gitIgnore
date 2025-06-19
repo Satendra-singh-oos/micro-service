@@ -10,6 +10,10 @@ product-service/node_modules
 product-service/dist/
 product-service/.env
 
+api-gateway/node_modules
+api-gateway/dist/
+api-gateway/.env
+
 
 postgres-data
 data

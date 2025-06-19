@@ -41,6 +41,7 @@ export async function getUserById(id: string): Promise<GetUserDTO | null> {
       id,
     },
     select: {
+      id: true,
       userName: true,
       firstName: true,
       email: true,
@@ -62,6 +63,7 @@ export async function updateUserDetails({
     },
     data,
     select: {
+      id: true,
       userName: true,
       firstName: true,
       email: true,

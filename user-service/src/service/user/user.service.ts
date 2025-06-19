@@ -12,6 +12,7 @@ import {
   generateHashPassword,
 } from "../../utils/helper";
 import { Role } from "@prisma/client";
+import redis from "../../config/redis/redis";
 
 export const userRegistrationService = async (
   data: UserRegistrationDTO
@@ -88,5 +89,6 @@ export const updatedUserRoleService = async ({
     throw new ApiError(HttpStatusCode.BadRequest, "User Dose Not Exist");
   }
 
+  await redis.del(`user:${isUserExist.id}`);
   return await userRepo.updateUserDetails({ id, data: { role } });
 };

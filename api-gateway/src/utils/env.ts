@@ -5,9 +5,11 @@ import { ZodError, z } from "zod";
 const EnvSchema = z.object({
   NODE_ENV: z.string().default("development"),
   PORT: z.string().default("8000"),
-  DATABASE_URL: z.string().min(1),
-  CORS_ORIGIN_URL: z.string().min(1),
   ACCESS_TOKEN_SECRET: z.string().min(1),
+  USER_SERVICE_URL: z.string().min(1),
+  PRODUCT_SERVICE_URL: z.string().min(1),
+  ORDER_SERVICE_URL: z.string().min(1),
+  CORS_ORIGIN_URL: z.string().min(1),
   REDIS_HOST: z.string().min(1),
   REDIS_PORT: z.string().min(1),
   REDIS_PASSWORD: z.string(),
