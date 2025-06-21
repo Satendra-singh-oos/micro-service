@@ -5,6 +5,6 @@ export const productProxy = createProxyMiddleware({
   target: env.PRODUCT_SERVICE_URL,
   changeOrigin: true,
   pathRewrite: {
-    "^/api/product": "",
+    "^/product": "api/v1/product/",
   },
 });

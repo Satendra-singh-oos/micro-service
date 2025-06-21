@@ -19,7 +19,7 @@ const corsOptions = () => {
     async origin(origin, callback) {
       if (!origin) return callback(null, true); // allow requests with no origin(like mobile apps or curl requests)
       const whitelist = env.CORS_ORIGIN_URL?.split(",") || [];
-      if (whitelist.indexOf(origin) !== -1) {
+      if (!whitelist.includes(origin)) {
         const msg = `The CORS policy for this site does not allow access from the specified origin.`;
         return callback(new Error(msg), false); // Blocking the call if origin not matched
       }

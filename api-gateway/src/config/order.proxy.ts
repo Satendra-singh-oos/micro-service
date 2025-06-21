@@ -5,6 +5,6 @@ export const orderProxy = createProxyMiddleware({
   target: env.ORDER_SERVICE_URL,
   changeOrigin: true,
   pathRewrite: {
-    "^/api/order": "",
+    "^/order": "api/v1/order/",
   },
 });

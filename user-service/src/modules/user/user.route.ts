@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post("/register", validateRoute(registerUserSchema), userRegistration);
 router.post("/login", validateRoute(loginUserSchema), userLogin);
-router.get("/:id", validateRoute(getUserSchema), verifyJWT, getUserById);
+router.get("/:id", validateRoute(getUserSchema), getUserById);
 router.patch(
   "/:id",
   validateRoute(updateUserRoleSchema),

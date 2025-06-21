@@ -5,10 +5,10 @@ export const userProxy = createProxyMiddleware({
   target: env.USER_SERVICE_URL,
   changeOrigin: true,
   pathRewrite: {
-    "^/api/users": "",
+    "^/user-service": "/api/v1/user",
   },
   cookieDomainRewrite: "",
-  // @ts-expect-error: onProxyRes is a valid option at runtime but not in the current type definition
+  // @ts-expect-error
   onProxyRes: (proxyRes: { headers: { [x: string]: any } }) => {
     const cookies = proxyRes.headers["set-cookie"];
     if (cookies) {

@@ -13,19 +13,29 @@ import redis from "./config/redis";
 import { userProxy } from "./config/user.proxy";
 import { productProxy } from "./config/product.proxy";
 import { orderProxy } from "./config/order.proxy";
+import { verifyAdmin, verifyJWT } from "./middlewares/auth.middelware";
 
 const app: express.Application = express();
-
-// all the global middleware for security and others
 
 app.use(corsOptions());
 app.use(helmetOptions());
 app.use(cookieParser());
-app.use(express.json({ limit: "20kb" }));
-app.use(express.urlencoded({ extended: true, limit: "20kb" }));
 app.use(requestIp.mw());
 app.use(rateLimiter());
 app.use(hpp());
+
+app.post("/user-service/login", userProxy);
+app.post("/user-service/registration", userProxy);
+app.get("/user-service/:id", verifyJWT, userProxy);
+app.patch("/user-service/:id", [verifyJWT, verifyAdmin], userProxy);
+
+app.post("/product-service", productProxy);
+app.post("/order-service", orderProxy);
+
+// all the global middleware for security and others
+
+app.use(express.json({ limit: "20mb" }));
+app.use(express.urlencoded({ extended: true, limit: "20kb" }));
 
 app.get("/api/health", async (_req, res) => {
   try {
@@ -43,10 +53,6 @@ app.get("/api/health/redis", async (_req, res) => {
     res.status(500).json({ status: "Redis Unavailable" });
   }
 });
-
-app.use("/api/users", userProxy);
-app.use("/api/product", productProxy);
-app.use("/api/order", orderProxy);
 
 // 404 handler for undefined routes
 app.use(notFoundHandler);
