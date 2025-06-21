@@ -7,18 +7,12 @@ import {
 } from "./user.validation";
 import validateRoute from "../../middlewares/validate";
 import { getUserById, userLogin, userRegistration } from "./user.controller";
-import { verifyAdmin, verifyJWT } from "../../middlewares/auth.middelware";
 
 const router = express.Router();
 
 router.post("/register", validateRoute(registerUserSchema), userRegistration);
 router.post("/login", validateRoute(loginUserSchema), userLogin);
 router.get("/:id", validateRoute(getUserSchema), getUserById);
-router.patch(
-  "/:id",
-  validateRoute(updateUserRoleSchema),
-  verifyAdmin,
-  getUserById
-);
+router.patch("/:id", validateRoute(updateUserRoleSchema), getUserById);
 
 export default router;

@@ -1,4 +1,4 @@
-class ApiError extends Error {
+export class ApiError extends Error {
   statusCode: number;
   data: null;
   success: boolean;
@@ -15,14 +15,21 @@ class ApiError extends Error {
 
     this.statusCode = statusCode;
     this.data = null;
-    this.message = message;
     this.success = false;
     this.errors = errors;
     this.isOperational = isOperational;
 
-    // Capture stack trace
     Error.captureStackTrace(this, this.constructor);
   }
-}
 
-export { ApiError };
+  toJSON() {
+    return {
+      statusCode: this.statusCode,
+      message: this.message,
+      data: this.data,
+      success: this.success,
+      errors: this.errors,
+      isOperational: this.isOperational,
+    };
+  }
+}
