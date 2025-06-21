@@ -7,6 +7,10 @@ const EnvSchema = z.object({
   PORT: z.string().default("8001"),
   DATABASE_URL: z.string().min(1),
   CORS_ORIGIN_URL: z.string().min(1),
+  ACCESS_TOKEN_SECRET: z.string().min(1),
+  REDIS_HOST: z.string().min(1),
+  REDIS_PASSWORD: z.string(),
+  REDIS_PORT: z.string().min(1),
 });
 
 export type EnvSchema = z.infer<typeof EnvSchema>;

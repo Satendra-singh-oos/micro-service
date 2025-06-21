@@ -27,14 +27,7 @@ services:
     volumes:
       - ./data/order-db:/var/lib/postgresql/data
 
-  # MongoDB for product-service
-  product-db:
-    image: mongo
-    container_name: product-db
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./data/product-mongo:/data/db
+    # MongoDB for product-service
 
   # Adminer for inspecting Postgres
   adminer:

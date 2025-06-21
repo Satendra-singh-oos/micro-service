@@ -7,6 +7,7 @@ export const prisma = new PrismaClient({
 
 export const connectDb = async () => {
   try {
+    console.log(env.DATABASE_URL);
     await prisma.$connect();
     console.log(`Product Service Db Connected 👨‍💻`);
   } catch (error) {

@@ -8,6 +8,7 @@ import {
 import { HttpStatusCode } from "axios";
 import { ApiResponse } from "../../utils/AppResponse";
 import { COOKIE_OPTIONS } from "../../utils/constant";
+import redis from "../../config/redis/redis";
 
 export const userRegistration = async (
   req: Request,

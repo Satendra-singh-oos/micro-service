@@ -2,7 +2,7 @@ model Product {
     id                 String   @id @default(auto()) @map("_id") @db.ObjectId
     title              String   @unique
     description        String
-    price              Float?
+    price              Float
     discountPercentage Float?
     rating             Float    @default(0)
     stock              Int      @default(0)
@@ -12,7 +12,7 @@ model Product {
     discountPrice      Float?
     deleted            Boolean  @default(false)
     createdById        String
-    categoryId         String
+    categoryId         String   @db.ObjectId
     category           Category @relation(fields: [categoryId], references: [id])
     createdAt          DateTime @default(now())
     updatedAt          DateTime @updatedAt

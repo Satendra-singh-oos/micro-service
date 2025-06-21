@@ -7,11 +7,12 @@
     "clean": "rimraf dist node_modules",
     "build": "rimraf dist && npx tsc",
     "dev": "cross-env NODE_ENV=development npm run build && concurrently \"npx tsc -w\" \"nodemon --exec ts-node src/index.ts\"",
-    "prod": "cross-env NODE_ENV=production npm run clean && npm install && npm run db:migrate && npm run build && node ./dist/index.js",
+    "prod": "cross-env NODE_ENV=production npm run clean && npm install && npm run db:push && npm run build && node ./dist/index.js",
     "format": "prettier --write .",
     "lint": "prettier --check .",
-    "db:push": "npx prisma db push --schema=./src/config/prisma/schema.prisma",
-    "db:generate": "npx prisma generate --schema=./src/config/prisma/schema.prisma",
+    "db:push": "npx prisma db push --schema=./src/config/prisma/",
+    "db:pull": "npx prisma db pull --force--schema=./src/config/prisma/",
+    "db:generate": "npx prisma generate --schema=./src/config/prisma/",
     "db:studio": "npx prisma studio --schema=./src/config/prisma"
   },
   "keywords": [
@@ -26,6 +27,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/hpp": "^0.2.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.1",
     "@types/request-ip": "^0.0.41",
     "concurrently": "^9.1.2",
@@ -50,6 +52,8 @@
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.1.0",
     "hpp": "^0.2.3",
+    "ioredis": "^5.6.1",
+    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "request-ip": "^3.3.0",
     "zod": "^3.25.64"

@@ -18,7 +18,7 @@ export const connectRedis = async () => {
     return true;
   } catch (err: any) {
     console.warn(
-      "⚠️  Redis connection failed, continuing without Redis:",
+      " Redis connection failed, continuing without Redis:",
       err.message
     );
     return false;
@@ -27,7 +27,7 @@ export const connectRedis = async () => {
 
 // Handle Redis events
 redis.on("connect", () => {
-  console.log("🔄 Redis connecting...");
+  console.log(" Redis connecting...");
 });
 
 redis.on("ready", () => {

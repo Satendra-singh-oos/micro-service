@@ -13,7 +13,11 @@ import redis from "./config/redis";
 import { userProxy } from "./config/user.proxy";
 import { productProxy } from "./config/product.proxy";
 import { orderProxy } from "./config/order.proxy";
-import { verifyAdmin, verifyJWT } from "./middlewares/auth.middelware";
+import {
+  verifyAdmin,
+  verifyJWT,
+  verifyManger,
+} from "./middlewares/auth.middelware";
 
 const app: express.Application = express();
 
@@ -24,12 +28,21 @@ app.use(requestIp.mw());
 app.use(rateLimiter());
 app.use(hpp());
 
+// User route proxy
 app.post("/user-service/login", userProxy);
 app.post("/user-service/registration", userProxy);
 app.get("/user-service/:id", verifyJWT, userProxy);
 app.patch("/user-service/:id", [verifyJWT, verifyAdmin], userProxy);
 
-app.post("/product-service", productProxy);
+// Product route proxy
+app.post("/product-service/product", [verifyJWT, verifyManger], productProxy);
+app.get("/product-service/product/:id", productProxy);
+app.get("/product-service/product", productProxy);
+app.delete("/product-service/product/:id", productProxy);
+app.post("/product-service/category", productProxy);
+app.get("/product-service/category", productProxy);
+
+// Order route proxy
 app.post("/order-service", orderProxy);
 
 // all the global middleware for security and others

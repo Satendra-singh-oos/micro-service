@@ -13,6 +13,7 @@ import {
 } from "../../utils/helper";
 import { Role } from "@prisma/client";
 import redis from "../../config/redis/redis";
+import { REDIS_EXPIRE } from "../../utils/constant";
 
 export const userRegistrationService = async (
   data: UserRegistrationDTO
@@ -56,6 +57,12 @@ export const userLoginService = async (data: UserLoginDTO): Promise<string> => {
   if (!isPasswordCorrect) {
     throw new ApiError(HttpStatusCode.BadRequest, "Password is incorrect");
   }
+
+  await redis.setex(
+    `user:${isUserExist.id}`,
+    REDIS_EXPIRE,
+    JSON.stringify(isUserExist)
+  );
 
   return await generateAccessToken({
     email: isUserExist.email,
