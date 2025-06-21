@@ -18,3 +18,4 @@ api-gateway/.env
 postgres-data
 data
 .DS_STORE
+db_data

@@ -27,7 +27,7 @@ services:
     volumes:
       - ./data/order-db:/var/lib/postgresql/data
 
-    # MongoDB for product-service
+    # MongoDB for product-service use
 
   # Adminer for inspecting Postgres
   adminer:
