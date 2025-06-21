@@ -8,11 +8,11 @@ connectDb()
     await connectRedis();
     app.listen(env.PORT || 7680, () => {
       console.log(
-        `User-Service Server is up and running at port : ${env.PORT || 7680}`
+        `Order-Service Server is up and running at port : ${env.PORT || 7680}`
       );
     });
 
-    app.on("error", (error) => {
+    app.on("error", (error:any) => {
       console.log("Error: ", error);
       throw error;
     });

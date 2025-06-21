@@ -8,9 +8,9 @@ export const prisma = new PrismaClient({
 export const connectDb = async () => {
   try {
     await prisma.$connect();
-    console.log(`Product Service Db Connected 👨‍💻`);
+    console.log(`Order Service Db Connected 👨‍💻`);
   } catch (error) {
-    console.log("Product to connect to Db", error);
+    console.log("Unable to connect to Db", error);
     process.exit(1);
   }
 };
