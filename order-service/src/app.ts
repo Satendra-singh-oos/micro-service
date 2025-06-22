@@ -25,8 +25,10 @@ app.use(rateLimiter());
 app.use(hpp());
 
 import healthCheckRouter from "./modules/health/health.route";
+import orderRouter from "./modules/order/order.route";
 
 app.use(`${V1}/health-check`, healthCheckRouter);
+app.use(`${V1}/order`, orderRouter);
 
 // 404 handler for undefined routes
 app.use(notFoundHandler);

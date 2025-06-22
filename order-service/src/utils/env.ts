@@ -11,6 +11,7 @@ const EnvSchema = z.object({
   REDIS_HOST: z.string().min(1),
   REDIS_PORT: z.string().min(1),
   REDIS_PASSWORD: z.string(),
+  API_GATEWAY_URL: z.string().min(1),
 });
 
 export type EnvSchema = z.infer<typeof EnvSchema>;

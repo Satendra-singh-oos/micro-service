@@ -30,7 +30,7 @@ export const deleteProductSchema = z.object({
 export const getProductByIdSchema = z.object({
   params: z
     .object({
-      id: z.string().uuid(),
+      id: z.string().trim(),
     })
     .strict(),
 });
