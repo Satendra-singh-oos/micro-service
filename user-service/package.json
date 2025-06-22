@@ -18,7 +18,9 @@
   },
   "keywords": [
     "typescript",
-    "microservice"
+    "microservice",
+    "postgreSql",
+    "javascript"
   ],
   "author": "Satendra Singh",
   "license": "ISC",

@@ -13,7 +13,10 @@
   },
   "keywords": [
     "typescript",
-    "microservice"
+    "microservice",
+    "redis",
+    "api-getaway",
+    "javascript"
   ],
   "author": "Satendra Singh",
   "license": "ISC",

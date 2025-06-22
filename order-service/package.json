@@ -18,7 +18,10 @@
   },
   "keywords": [
     "typescript",
-    "microservice"
+    "microservice",
+    "kafka",
+    "postgreSql",
+    "javascript"
   ],
   "author": "Satendra Singh",
   "license": "ISC",
