@@ -60,3 +60,38 @@ export const deleteProductService = async (id: string): Promise<Product> => {
 
   return productRepo.softDeleteProduct(id);
 };
+
+export const updateProductStockService = async (
+  id: string,
+  value: number
+): Promise<Product> => {
+  const isProductExist = await productRepo.getProductById(id);
+
+  if (!isProductExist || isProductExist.deleted) {
+    throw new ApiError(
+      HttpStatusCode.BadRequest,
+      "Product Not Found or Deleted"
+    );
+  }
+
+  const currentStock = isProductExist.stock;
+  const newStock = currentStock + value;
+
+  if (newStock < 0) {
+    throw new ApiError(
+      HttpStatusCode.BadRequest,
+      `Insufficient stock for product: ${id}`
+    );
+  }
+
+  const updatedProduct = await productRepo.updateProductStock(id, newStock);
+
+  if (!updatedProduct) {
+    throw new ApiError(
+      HttpStatusCode.InternalServerError,
+      `Failed to update stock for product: ${id}`
+    );
+  }
+
+  return updatedProduct;
+};

@@ -98,3 +98,17 @@ export const softDeleteProduct = async (id: string): Promise<Product> => {
     },
   });
 };
+
+export const updateProductStock = async (
+  id: string,
+  newStock: number
+): Promise<Product> => {
+  return await prisma.product.update({
+    where: {
+      id,
+    },
+    data: {
+      stock: newStock,
+    },
+  });
+};

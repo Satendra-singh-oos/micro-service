@@ -8,6 +8,10 @@ import * as orderRepo from "../../repository/order/order.repository";
 import { ApiError } from "../../utils/AppError";
 import { ApiResponse } from "../../utils/AppResponse";
 import { ORDER_STATUS } from "@prisma/client";
+import {
+  publishOrderCancelled,
+  publishOrderCreated,
+} from "../../config/kafka/producer";
 
 export const createOrderService = async (data: CreateOrderDTO) => {
   const productIds: string[] = data.productIds;
@@ -43,11 +47,15 @@ export const createOrderService = async (data: CreateOrderDTO) => {
     }
   }
 
-  const order = await orderRepo.createOrder(data);
+  const createdOrder = await orderRepo.createOrder(data);
 
-  //TODO: Add Kafka Producer Here So That Product service can consume it and update the stock
+  await publishOrderCreated({
+    orderId: createdOrder.id,
+    productIds: createdOrder.productIds,
+    amount: createdOrder.totalAmount,
+  });
 
-  return order;
+  return createdOrder;
 };
 
 export const updateOrderStatusService = async (data: UpdateOrderStatusDTO) => {
@@ -64,6 +72,18 @@ export const updateOrderStatusService = async (data: UpdateOrderStatusDTO) => {
   const order = await orderRepo.updateOrderStatus(data);
 
   //TODO: add kafka producer her when ORDER_STATUS= CANCELED REFUND FAILED re update the stock so that product consumer can listen
+
+  if (
+    order.status === ORDER_STATUS.CANCELLED ||
+    order.status === ORDER_STATUS.FAILED ||
+    order.status === ORDER_STATUS.REFUNDED
+  ) {
+    await publishOrderCancelled({
+      orderId: isOrderExist.id,
+      productIds: isOrderExist.productIds,
+      reason: order.status,
+    });
+  }
 
   return order;
 };
