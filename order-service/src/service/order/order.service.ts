@@ -12,27 +12,34 @@ import { ORDER_STATUS } from "@prisma/client";
 export const createOrderService = async (data: CreateOrderDTO) => {
   const productIds: string[] = data.productIds;
 
-  let totalAmount = 0;
-
   for (const productId of productIds) {
-    const productResponse = await axios.get(
-      `${env.API_GATEWAY_URL}/api/product/${productId}`
-    );
-
-    const product = productResponse.data?.data;
-
-    if (!product) {
-      throw new ApiError(
-        HttpStatusCode.BadRequest,
-        `Product with ID ${productId} not found`
+    try {
+      const productResponse = await axios.get(
+        `${env.API_GATEWAY_URL}/product-service/product/${productId}`
       );
-    }
 
-    if (product.stock <= 0) {
-      throw new ApiResponse(
-        HttpStatusCode.BadRequest,
-        `Product "${product.title}" is out of stock`
-      );
+      const product = productResponse.data?.data;
+
+      if (!product) {
+        throw new ApiError(
+          HttpStatusCode.BadRequest,
+          `Product with ID ${productId} not found`
+        );
+      }
+
+      if (product.stock <= 0) {
+        throw new ApiError(
+          HttpStatusCode.BadRequest,
+          `Product "${product.title}" is out of stock`
+        );
+      }
+    } catch (err: any) {
+      const status = err?.response?.status;
+      const msg =
+        err?.response?.data?.message ||
+        `Product with ID ${productId} not found`;
+
+      throw new ApiError(status || HttpStatusCode.BadRequest, msg);
     }
   }
 

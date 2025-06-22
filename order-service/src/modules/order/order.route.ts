@@ -21,7 +21,7 @@ router.post(
   createOrder
 );
 
-router.post(
+router.patch(
   "/:id",
   validateRoute(updateOrderStatusSchema),
   authMiddleware,

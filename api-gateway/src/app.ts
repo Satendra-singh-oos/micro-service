@@ -21,6 +21,7 @@ import {
 
 const app: express.Application = express();
 
+// all the global middleware for security and others
 app.use(corsOptions());
 app.use(helmetOptions());
 app.use(cookieParser());
@@ -43,9 +44,9 @@ app.post("/product-service/category", productProxy);
 app.get("/product-service/category", productProxy);
 
 // Order route proxy
-app.post("/order-service", orderProxy);
-
-// all the global middleware for security and others
+app.post("/order-service/buy", [verifyJWT], orderProxy);
+app.patch("/order-service/:id", [verifyJWT], orderProxy);
+app.get("/order-service/:id", [verifyJWT, verifyManger], orderProxy);
 
 app.use(express.json({ limit: "20mb" }));
 app.use(express.urlencoded({ extended: true, limit: "20kb" }));
